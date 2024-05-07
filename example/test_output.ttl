@@ -1,0 +1,46 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+<http://example.com/NodeShape/persona> a sh:NodeShape ;
+    sh:name "persona" ;
+    sh:node <http://example.com/NodeShape/address> ;
+    sh:property <http://example.com/NodeShape/birthday>,
+        <http://example.com/NodeShape/first_name>,
+        <http://example.com/NodeShape/last_name> ;
+    sh:targetClass <http://example.com/persona> .
+
+<http://example.com/NodeShape/address> a sh:NodeShape ;
+    sh:name "address" ;
+    sh:property <http://example.com/NodeShape/city>,
+        <http://example.com/NodeShape/country>,
+        <http://example.com/NodeShape/state>,
+        <http://example.com/NodeShape/street_address> ;
+    sh:targetClass <http://example.com/address> .
+
+<http://example.com/NodeShape/birthday> a sh:PropertyShape ;
+    sh:name "birthday" ;
+    sh:path <http://example.com/birthday> .
+
+<http://example.com/NodeShape/city> a sh:PropertyShape ;
+    sh:name "city" ;
+    sh:path <http://example.com/city> .
+
+<http://example.com/NodeShape/country> a sh:PropertyShape ;
+    sh:name "country" ;
+    sh:path <http://example.com/country> .
+
+<http://example.com/NodeShape/first_name> a sh:PropertyShape ;
+    sh:name "first_name" ;
+    sh:path <http://example.com/first_name> .
+
+<http://example.com/NodeShape/last_name> a sh:PropertyShape ;
+    sh:name "last_name" ;
+    sh:path <http://example.com/last_name> .
+
+<http://example.com/NodeShape/state> a sh:PropertyShape ;
+    sh:name "state" ;
+    sh:path <http://example.com/state> .
+
+<http://example.com/NodeShape/street_address> a sh:PropertyShape ;
+    sh:name "street_address" ;
+    sh:path <http://example.com/street_address> .
+
