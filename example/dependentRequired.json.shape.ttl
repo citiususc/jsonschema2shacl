@@ -1,0 +1,32 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<http://example.com/NodeShape/None> a sh:NodeShape ;
+    sh:name "None" ;
+    sh:property <http://example.com/PropertyShape/billing_address>,
+        <http://example.com/PropertyShape/credit_card>,
+        <http://example.com/PropertyShape/name> ;
+    sh:qualifiedMinCount 1 ;
+    sh:targetClass <http://example.com/> .
+
+<http://example.com/NodeShape/billing_addressQualifiedValueShape> a sh:NodeShape ;
+    sh:path <http://example.com/billing_address> .
+
+<http://example.com/PropertyShape/billing_address> a sh:PropertyShape ;
+    sh:datatype xsd:string ;
+    sh:name "billing_address" ;
+    sh:path <http://example.com/billing_address> .
+
+<http://example.com/PropertyShape/credit_card> a sh:PropertyShape ;
+    sh:datatype xsd:decimal ;
+    sh:name "credit_card" ;
+    sh:path <http://example.com/credit_card> ;
+    sh:qualifiedValueShape <http://example.com/NodeShape/billing_addressQualifiedValueShape> .
+
+<http://example.com/PropertyShape/name> a sh:PropertyShape ;
+    sh:datatype xsd:string ;
+    sh:maxCount 1 ;
+    sh:minCount 1 ;
+    sh:name "name" ;
+    sh:path <http://example.com/name> .
+

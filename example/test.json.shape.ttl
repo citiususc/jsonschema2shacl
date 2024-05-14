@@ -1,0 +1,66 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<http://example.com/NodeShape/persona> a sh:NodeShape ;
+    sh:name "persona" ;
+    sh:node <http://example.com/NodeShape/address> ;
+    sh:property <http://example.com/PropertyShape/birthday>,
+        <http://example.com/PropertyShape/first_name>,
+        <http://example.com/PropertyShape/last_name>,
+        <http://example.com/PropertyShape/numberTest> ;
+    sh:targetClass <http://example.com/persona> .
+
+<http://example.com/NodeShape/address> a sh:NodeShape ;
+    sh:name "address" ;
+    sh:property <http://example.com/PropertyShape/city>,
+        <http://example.com/PropertyShape/country>,
+        <http://example.com/PropertyShape/state>,
+        <http://example.com/PropertyShape/street_address> ;
+    sh:targetClass <http://example.com/address> .
+
+<http://example.com/PropertyShape/birthday> a sh:PropertyShape ;
+    sh:datatype xsd:date,
+        xsd:string ;
+    sh:name "birthday" ;
+    sh:path <http://example.com/birthday> .
+
+<http://example.com/PropertyShape/city> a sh:PropertyShape ;
+    sh:datatype xsd:string ;
+    sh:name "city" ;
+    sh:path <http://example.com/city> .
+
+<http://example.com/PropertyShape/country> a sh:PropertyShape ;
+    sh:datatype xsd:string ;
+    sh:name "country" ;
+    sh:path <http://example.com/country> .
+
+<http://example.com/PropertyShape/first_name> a sh:PropertyShape ;
+    sh:datatype xsd:string ;
+    sh:maxCount 1 ;
+    sh:minCount 1 ;
+    sh:name "first_name" ;
+    sh:path <http://example.com/first_name> .
+
+<http://example.com/PropertyShape/last_name> a sh:PropertyShape ;
+    sh:datatype xsd:string ;
+    sh:maxCount 1 ;
+    sh:minCount 1 ;
+    sh:name "last_name" ;
+    sh:path <http://example.com/last_name> .
+
+<http://example.com/PropertyShape/numberTest> a sh:PropertyShape ;
+    sh:datatype xsd:integer ;
+    sh:maxExclusive 100 ;
+    sh:name "numberTest" ;
+    sh:path <http://example.com/numberTest> .
+
+<http://example.com/PropertyShape/state> a sh:PropertyShape ;
+    sh:datatype xsd:string ;
+    sh:name "state" ;
+    sh:path <http://example.com/state> .
+
+<http://example.com/PropertyShape/street_address> a sh:PropertyShape ;
+    sh:datatype xsd:string ;
+    sh:name "street_address" ;
+    sh:path <http://example.com/street_address> .
+

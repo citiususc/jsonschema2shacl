@@ -1,0 +1,52 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<http://example.com/NodeShape/test> a sh:NodeShape ;
+    sh:name "test" ;
+    sh:node <http://example.com/NodeShape/fruits>,
+        <http://example.com/NodeShape/street> ;
+    sh:targetClass <http://example.com/test> .
+
+<http://example.com/NodeShape/fruits> a sh:NodeShape ;
+    sh:name "fruits" ;
+    sh:property <http://example.com/PropertyShape/fruitsP0> ;
+    sh:targetClass <http://example.com/fruits> .
+
+<http://example.com/NodeShape/street> a sh:NodeShape ;
+    sh:name "street" ;
+    sh:property <http://example.com/PropertyShape/streetP0>,
+        <http://example.com/PropertyShape/streetP1>,
+        <http://example.com/PropertyShape/streetP2>,
+        <http://example.com/PropertyShape/streetP3> ;
+    sh:targetClass <http://example.com/street> .
+
+<http://example.com/PropertyShape/fruitsP0> a sh:PropertyShape ;
+    sh:datatype xsd:string ;
+    sh:name "fruitsP0" ;
+    sh:path <http://example.com/fruitsP0> .
+
+<http://example.com/PropertyShape/streetP0> a sh:PropertyShape ;
+    sh:datatype xsd:decimal ;
+    sh:name "streetP0" ;
+    sh:path <http://example.com/streetP0> .
+
+<http://example.com/PropertyShape/streetP1> a sh:PropertyShape ;
+    sh:datatype xsd:string ;
+    sh:name "streetP1" ;
+    sh:path <http://example.com/streetP1> .
+
+<http://example.com/PropertyShape/streetP2> a sh:PropertyShape ;
+    sh:in_ "Avenue",
+        "Boulevard",
+        "Street" ;
+    sh:name "streetP2" ;
+    sh:path <http://example.com/streetP2> .
+
+<http://example.com/PropertyShape/streetP3> a sh:PropertyShape ;
+    sh:in_ "NE",
+        "NW",
+        "SE",
+        "SW" ;
+    sh:name "streetP3" ;
+    sh:path <http://example.com/streetP3> .
+
