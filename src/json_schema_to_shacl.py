@@ -3,6 +3,7 @@ from rdflib import Graph, Namespace, Literal
 # from pyshacl import validate
 from file_parser import parse_json_schema
 from constants import BUILD_IN_TYPES, FORMAT_TYPES
+from utils import is_simple_complex, check_if_object_has_properties_or_restrictions
 
 
 class JsonSchemaToShacl:
@@ -24,28 +25,11 @@ class JsonSchemaToShacl:
         self.shacl = Graph()
         self.shapes = []
 
-    def is_simple_complex(self, element: dict) -> str:
-        """A function to determine whether the type of element is SimpleType or ComplexType"""
-        element_type = element.get("type")
-        if element_type == "object":
-            return "ComplexType"
-        elif element_type == "array":
-            return "ArrayType"
-        else:
-            return "SimpleType"
-
     def trans_element_simple(self, entry_name, entry, pre_subject=None) -> None:
-        """A function to translate elements inside of a SimpleType
-
-        Args:
-            entry_name (str): name of the simple element
-            entry (object): object with properties of json schema entry
-        """
+        """A function to translate elements of SimpleType inside a ComplexType"""
         subject = self.ns[f'PropertyShape/{entry_name}']
 
         if pre_subject is None:
-            pre_subject_path = ""
-            pre_subject = self.ns
             if "NodeShape" in str(self.shapes[-1]):
                 pre_subject_path = self.shapes[-1].split("NodeShape/")[1]
                 pre_subject = self.ns[f'NodeShape/{pre_subject_path}']
@@ -64,17 +48,12 @@ class JsonSchemaToShacl:
         self.trans_simple_restrictions(entry, subject)
 
     def trans_element_complex(self, entry_name, entry, pre_subject=None) -> None:
-        """A function to translate elements inside of a ComplexType
+        """A function to translate elements of ComplexType inside a ComplexType"""
 
-        Args:
-            name (str): name of the entry
-            element (object): object with properties of json schema entry
-        """
         subject = self.ns[f'NodeShape/{entry_name}']
+        subject_property = self.ns[f'PropertyShape/{entry_name}']
 
         if pre_subject is None:
-            pre_subject_path = ""
-            pre_subject = self.ns
             if "NodeShape" in str(self.shapes[-1]):
                 pre_subject_path = self.shapes[-1].split("NodeShape/")[1]
                 pre_subject = self.ns[f'NodeShape/{pre_subject_path}']
@@ -82,38 +61,76 @@ class JsonSchemaToShacl:
                 pre_subject_path = self.shapes[-1].split("PropertyShape/")[1]
                 pre_subject = self.ns[f'PropertyShape/{pre_subject_path}']
 
-        self.shacl.add((pre_subject, self.shacl_ns.node, subject))
-        self.shapes.append(subject)
+        self.shacl.add((pre_subject, self.shacl_ns.property, subject_property))
         self.shacl.add(
-            (subject, self.rdf_syntax['type'], self.shacl_ns.NodeShape))
-        self.shacl.add((subject, self.shacl_ns.name, Literal(entry_name)))
-        self.shacl.add((subject, self.shacl_ns.targetClass,
+            (subject_property, self.rdf_syntax['type'], self.shacl_ns.PropertyShape))
+        self.shacl.add((subject_property, self.shacl_ns.path,
                         self.xsd_target_ns[entry_name]))
+        self.shapes.append(subject_property)
+        if check_if_object_has_properties_or_restrictions(entry) is True:
+            self.shacl.add((subject_property, self.shacl_ns.node, subject))
+            self.shapes.append(subject)
+            self.shacl.add(
+                (subject, self.rdf_syntax['type'], self.shacl_ns.NodeShape))
+            self.shacl.add((subject, self.shacl_ns.name, Literal(entry_name)))
 
-        self.trans_simple_restrictions(entry, subject)
+            self.trans_simple_restrictions(entry, subject)
 
-        for name, details in entry.get('properties', {}).items():
-            if self.is_simple_complex(details) == "SimpleType":
-                self.trans_element_simple(name, details, subject)
-            elif self.is_simple_complex(details) == "ComplexType":
-                self.trans_element_complex(name, details, subject)
-            elif self.is_simple_complex(details) == "ArrayType":
-                self.trans_element_array(name, details, subject)
+            if entry.get('properties') is not None:
+                for name, details in entry.get('properties', {}).items():
+                    if is_simple_complex(details) == "SimpleType":
+                        self.trans_element_simple(name, details, subject)
+                    elif is_simple_complex(details) == "ComplexType":
+                        self.trans_element_complex(name, details, subject)
+                    elif is_simple_complex(details) == "ArrayType":
+                        self.trans_element_array(name, details, subject)
 
-        self.trans_complex_restrictions(entry, subject)
+            self.trans_complex_restrictions(entry, subject)
+        else:
+            self.trans_simple_restrictions(entry, subject_property)
+
+    def trans_element_complex_array(self, entry_name, entry, pre_subject=None) -> None:
+        """A function to translate a ComplexType object inside an Array"""
+
+        subject = self.ns[f'NodeShape/{entry_name}']
+
+        if pre_subject is None:
+            if "NodeShape" in str(self.shapes[-1]):
+                pre_subject_path = self.shapes[-1].split("NodeShape/")[1]
+                pre_subject = self.ns[f'NodeShape/{pre_subject_path}']
+            elif "PropertyShape" in str(self.shapes[-1]):
+                pre_subject_path = self.shapes[-1].split("PropertyShape/")[1]
+                pre_subject = self.ns[f'PropertyShape/{pre_subject_path}']
+
+        if check_if_object_has_properties_or_restrictions(entry) is True:
+            self.shacl.add((pre_subject, self.shacl_ns.node, subject))
+            self.shapes.append(subject)
+            self.shacl.add(
+                (subject, self.rdf_syntax['type'], self.shacl_ns.NodeShape))
+            self.shacl.add((subject, self.shacl_ns.name, Literal(entry_name)))
+
+            self.trans_simple_restrictions(entry, subject)
+
+            if entry.get('properties') is not None:
+                for name, details in entry.get('properties', {}).items():
+                    if is_simple_complex(details) == "SimpleType":
+                        self.trans_element_simple(name, details, subject)
+                    elif is_simple_complex(details) == "ComplexType":
+                        self.trans_element_complex(name, details, subject)
+                    elif is_simple_complex(details) == "ArrayType":
+                        self.trans_element_array(name, details, subject)
+
+            self.trans_complex_restrictions(entry, subject)
+        else:
+            self.trans_simple_restrictions(entry, pre_subject)
 
     def trans_element_array(self, entry_name, entry, pre_subject=None) -> None:
-        """A function to translate arrays inside of a CompleType
+        """A function to translate arrays inside a ComplexType"""
 
-        Args:
-            name (str): name of the entry
-            element (object): object with properties of json schema entry
-        """
+        subject_property = self.ns[f'PropertyShape/{entry_name}']
         subject = self.ns[f'NodeShape/{entry_name}']
 
         if pre_subject is None:
-            pre_subject_path = ""
-            pre_subject = self.ns
             if "NodeShape" in str(self.shapes[-1]):
                 pre_subject_path = self.shapes[-1].split("NodeShape/")[1]
                 pre_subject = self.ns[f'NodeShape/{pre_subject_path}']
@@ -121,34 +138,51 @@ class JsonSchemaToShacl:
                 pre_subject_path = self.shapes[-1].split("PropertyShape/")[1]
                 pre_subject = self.ns[f'PropertyShape/{pre_subject_path}']
 
-        self.shacl.add((pre_subject, self.shacl_ns.node, subject))
-        self.shapes.append(subject)
+        self.shacl.add((pre_subject, self.shacl_ns.property, subject_property))
         self.shacl.add(
-            (subject, self.rdf_syntax['type'], self.shacl_ns.NodeShape))
-        self.shacl.add((subject, self.shacl_ns.name, Literal(entry_name)))
-        self.shacl.add((subject, self.shacl_ns.targetClass,
+            (subject_property, self.rdf_syntax['type'], self.shacl_ns.PropertyShape))
+        self.shacl.add((subject_property, self.shacl_ns.path,
                         self.xsd_target_ns[entry_name]))
+        self.shapes.append(subject_property)
+        if entry.get('prefixItems') is not None or is_simple_complex(entry.get('items')) != "SimpleType":
+            self.shacl.add((subject_property, self.shacl_ns.node, subject))
+            self.shapes.append(subject)
+            self.shacl.add(
+                (subject, self.rdf_syntax['type'], self.shacl_ns.NodeShape))
+            self.shacl.add((subject, self.shacl_ns.name, Literal(entry_name)))
 
-        number_of_items = 0
+        if entry.get('prefixItems') is None:
+            item = entry.get('items')
+            if item is not None:
+                if item == "true" or item == "false":
+                    self.shacl.add((subject, self.shacl_ns.closed, Literal(item)))
+                else:
+                    if is_simple_complex(item) == "SimpleType":
+                        self.shacl.add((subject_property, self.shacl_ns.name, Literal(entry_name)))
+                        self.trans_simple_restrictions(item, subject_property)
+                    elif is_simple_complex(item) == "ComplexType":
+                        self.trans_element_complex_array(f"{entry_name}", item, subject_property)
+        else:
+            number_of_items = 0
 
-        if entry.get('prefixItems') is not None:
-            for prefix_item in entry.get('prefixItems'):
-                if self.is_simple_complex(prefix_item) == "SimpleType":
-                    self.trans_element_simple(f"{entry_name}P{number_of_items}", prefix_item, subject)
-                elif self.is_simple_complex(prefix_item) == "ComplexType":
-                    self.trans_element_complex(f"{entry_name}P{number_of_items}", prefix_item, subject)
-                number_of_items += 1
+            if entry.get('prefixItems') is not None:
+                for prefix_item in entry.get('prefixItems'):
+                    if is_simple_complex(prefix_item) == "SimpleType":
+                        self.trans_element_simple(f"{entry_name}P{number_of_items}", prefix_item, subject)
+                    elif is_simple_complex(prefix_item) == "ComplexType":
+                        self.trans_element_complex(f"{entry_name}P{number_of_items}", prefix_item, subject)
+                    number_of_items += 1
 
-        item = entry.get('items')
-        if item is not None:
-            if item == "true" or item == "false":
-                self.shacl.add((subject, self.shacl_ns.closed, Literal(item)))
-            else:
-                if self.is_simple_complex(item) == "SimpleType":
-                    self.trans_element_simple(f"{entry_name}P{number_of_items}", item, subject)
-                elif self.is_simple_complex(item) == "ComplexType":
-                    self.trans_element_complex(f"{entry_name}P{number_of_items}", item, subject)
-                number_of_items += 1
+            item = entry.get('items')
+            if item is not None:
+                if item == "true" or item == "false":
+                    self.shacl.add((subject, self.shacl_ns.closed, Literal(item)))
+                else:
+                    if is_simple_complex(item) == "SimpleType":
+                        self.trans_element_simple(f"{entry_name}P{number_of_items}", item, subject)
+                    elif is_simple_complex(item) == "ComplexType":
+                        self.trans_element_complex(f"{entry_name}P{number_of_items}", item, subject)
+                    number_of_items += 1
 
         self.trans_array_restrictions(entry, subject)
 
@@ -276,7 +310,8 @@ class JsonSchemaToShacl:
                             self.shacl.add((subject_dependant_key, p, dependent_object))
                             self.shapes.append(dependent_object)
                             self.shacl.add((dependent_object, self.rdf_syntax['type'], self.shacl_ns.NodeShape))
-                            self.shacl.add((dependent_object, self.shacl_ns.path, self.xsd_target_ns[subject_dependant_path]))
+                            self.shacl.add(
+                                (dependent_object, self.shacl_ns.path, self.xsd_target_ns[subject_dependant_path]))
 
     def trans_array_restrictions(self, element: dict, subject) -> None:
         if element.get('minItems'):
@@ -318,30 +353,24 @@ class JsonSchemaToShacl:
                         self.xsd_target_ns[element_name]))
 
         for name, details in element.get('properties', {}).items():
-            if self.is_simple_complex(details) == "SimpleType":
+            if is_simple_complex(details) == "SimpleType":
                 self.trans_element_simple(name, details, subject)
-            elif self.is_simple_complex(details) == "ComplexType":
+            elif is_simple_complex(details) == "ComplexType":
                 self.trans_element_complex(name, details, subject)
-            elif self.is_simple_complex(details) == "ArrayType":
+            elif is_simple_complex(details) == "ArrayType":
                 self.trans_element_array(name, details, subject)
 
         self.trans_simple_restrictions(element, subject)
         self.trans_complex_restrictions(element, subject)
 
     def translate(self, element: dict) -> None:
-        """Function to translate JSON Schema to SHACL
-
-        Args:
-            element (object): JSON Schema object
-        """
-        if self.is_simple_complex(element) == "ComplexType":
+        """Function to translate JSON Schema to SHACL"""
+        if is_simple_complex(element) == "ComplexType":
             self.trans_complex(element)
 
 
 def main():
-    """
-    Main function to execute
-    """
+    """Main function to execute"""
     parser = argparse.ArgumentParser(
         description="Translate JSON Schema to SHACL")
     parser.add_argument("json_file", type=str,
@@ -357,7 +386,6 @@ def main():
         json_converter.translate(schema)
         file_name = f"{file_path}.shape.ttl"
         json_converter.shacl.serialize(format="turtle", destination=file_name)
-        # print(json_converter.shacl.serialize(format="turtle"))
 
 
 if __name__ == "__main__":

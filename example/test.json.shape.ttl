@@ -3,8 +3,8 @@
 
 <http://example.com/NodeShape/persona> a sh:NodeShape ;
     sh:name "persona" ;
-    sh:node <http://example.com/NodeShape/address> ;
-    sh:property <http://example.com/PropertyShape/birthday>,
+    sh:property <http://example.com/PropertyShape/address>,
+        <http://example.com/PropertyShape/birthday>,
         <http://example.com/PropertyShape/first_name>,
         <http://example.com/PropertyShape/last_name>,
         <http://example.com/PropertyShape/numberTest> ;
@@ -15,8 +15,11 @@
     sh:property <http://example.com/PropertyShape/city>,
         <http://example.com/PropertyShape/country>,
         <http://example.com/PropertyShape/state>,
-        <http://example.com/PropertyShape/street_address> ;
-    sh:targetClass <http://example.com/address> .
+        <http://example.com/PropertyShape/street_address> .
+
+<http://example.com/PropertyShape/address> a sh:PropertyShape ;
+    sh:node <http://example.com/NodeShape/address> ;
+    sh:path <http://example.com/address> .
 
 <http://example.com/PropertyShape/birthday> a sh:PropertyShape ;
     sh:datatype xsd:date,
