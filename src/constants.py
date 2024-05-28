@@ -1,4 +1,4 @@
-def BUILD_IN_TYPES(json_type):
+def build_in_types(json_type):
     type_map = {
         "string": "string",
         "number": "decimal",
@@ -9,7 +9,7 @@ def BUILD_IN_TYPES(json_type):
     return type_map.get(json_type, None)
 
 
-def FORMAT_TYPES(format_type):
+def format_types(format_type):
     format_type_map = {
         "date-time": "dateTime ",
         "date": "date",
