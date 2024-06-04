@@ -14,12 +14,23 @@
         <http://example.com/PropertyShape/streetP1>,
         <http://example.com/PropertyShape/streetP2>,
         <http://example.com/PropertyShape/streetP3>,
-        <http://example.com/PropertyShape/streetP4> .
+        <http://example.com/PropertyShape/streetP4>,
+        <http://example.com/PropertyShape/streetP5> .
+
+<http://example.com/NodeShape/streetP5> a sh:NodeShape ;
+    sh:name "streetP5" ;
+    sh:property <http://example.com/PropertyShape/ancho>,
+        <http://example.com/PropertyShape/lado> .
 
 <http://example.com/NodeShape/vegetables> a sh:NodeShape ;
     sh:name "vegetables" ;
     sh:property <http://example.com/PropertyShape/color>,
         <http://example.com/PropertyShape/flavor> .
+
+<http://example.com/PropertyShape/ancho> a sh:PropertyShape ;
+    sh:datatype xsd:string ;
+    sh:name "ancho" ;
+    sh:path <http://example.com/ancho> .
 
 <http://example.com/PropertyShape/color> a sh:PropertyShape ;
     sh:datatype xsd:string ;
@@ -35,6 +46,11 @@
     sh:datatype xsd:string ;
     sh:name "fruits" ;
     sh:path <http://example.com/fruits> .
+
+<http://example.com/PropertyShape/lado> a sh:PropertyShape ;
+    sh:datatype xsd:string ;
+    sh:name "lado" ;
+    sh:path <http://example.com/lado> .
 
 <http://example.com/PropertyShape/street> a sh:PropertyShape ;
     sh:node <http://example.com/NodeShape/street> ;
@@ -69,6 +85,10 @@
     sh:datatype xsd:string ;
     sh:name "streetP4" ;
     sh:path <http://example.com/streetP4> .
+
+<http://example.com/PropertyShape/streetP5> a sh:PropertyShape ;
+    sh:path <http://example.com/streetP5> ;
+    sh:qualifiedValueShape <http://example.com/NodeShape/streetP5> .
 
 <http://example.com/PropertyShape/vegetables> a sh:PropertyShape ;
     sh:node <http://example.com/NodeShape/vegetables> ;

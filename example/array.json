@@ -52,6 +52,17 @@
       ],
       "items": {
         "type": "string"
+      },
+      "contains": {
+        "type": "object",
+        "properties": {
+          "lado": {
+            "type": "string"
+          },
+          "ancho": {
+            "type": "string"
+          }
+        }
       }
     }
   }
