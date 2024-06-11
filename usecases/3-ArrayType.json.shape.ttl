@@ -1,0 +1,19 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<http://example.com/NodeShape/fruits> a sh:NodeShape ;
+    sh:name "fruits" ;
+    sh:node <http://example.com/NodeShape/fruits> ;
+    sh:property <http://example.com/PropertyShape/color>,
+        <http://example.com/PropertyShape/flavor> .
+
+<http://example.com/PropertyShape/color> a sh:PropertyShape ;
+    sh:datatype xsd:string ;
+    sh:name "color" ;
+    sh:path <http://example.com/color> .
+
+<http://example.com/PropertyShape/flavor> a sh:PropertyShape ;
+    sh:datatype xsd:string ;
+    sh:name "flavor" ;
+    sh:path <http://example.com/flavor> .
+

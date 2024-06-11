@@ -1,0 +1,7 @@
+{
+    "type": "object",
+    "name": "propertyNames",
+    "propertyNames": {
+        "pattern": "^[A-Za-z_][A-Za-z0-9_]*$"
+    }
+}

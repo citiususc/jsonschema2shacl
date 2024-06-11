@@ -1,0 +1,11 @@
+{
+    "type": "array",
+    "name": "test",
+    "items": {
+      "type": "number"
+    },
+    "contains": {
+      "type": "number"
+    }
+}
+  

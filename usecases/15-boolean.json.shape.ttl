@@ -1,0 +1,8 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<http://example.com/PropertyShape/bool> a sh:PropertyShape ;
+    sh:datatype xsd:boolean ;
+    sh:name "bool" ;
+    sh:path <http://example.com/bool> .
+

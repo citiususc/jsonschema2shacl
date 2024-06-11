@@ -1,0 +1,15 @@
+{
+    "type": "array",
+    "name": "fruits",
+    "items": {
+      "type": "object",
+      "properties": {
+        "color": {
+          "type": "string"
+        },
+        "flavor": {
+          "type": "string"
+        }
+      }
+    }
+}

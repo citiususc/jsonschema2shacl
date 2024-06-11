@@ -1,0 +1,37 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<http://example.com/NodeShape/client> a sh:NodeShape ;
+    sh:name "client" ;
+    sh:property <http://example.com/PropertyShape/first_name>,
+        <http://example.com/PropertyShape/last_name> ;
+    sh:targetClass <http://example.com/client> .
+
+<http://example.com/PropertyShape/first_name> a sh:PropertyShape ;
+    sh:maxCount 1 ;
+    sh:minCount 1 ;
+    sh:node <http://example.com/NodeShape/name> ;
+    sh:path <http://example.com/first_name> .
+
+<http://example.com/PropertyShape/last_name> a sh:PropertyShape ;
+    sh:maxCount 1 ;
+    sh:minCount 1 ;
+    sh:node <http://example.com/NodeShape/name> ;
+    sh:path <http://example.com/last_name> .
+
+<http://example.com/PropertyShape/manolito> a sh:PropertyShape ;
+    sh:datatype xsd:string ;
+    sh:name "manolito" ;
+    sh:path <http://example.com/manolito> .
+
+<http://example.com/PropertyShape/pepito> a sh:PropertyShape ;
+    sh:datatype xsd:string ;
+    sh:name "pepito" ;
+    sh:path <http://example.com/pepito> .
+
+<http://example.com/NodeShape/name> a sh:NodeShape ;
+    sh:name "name" ;
+    sh:property <http://example.com/PropertyShape/manolito>,
+        <http://example.com/PropertyShape/pepito> ;
+    sh:targetClass <http://example.com/name> .
+

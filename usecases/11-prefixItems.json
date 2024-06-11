@@ -1,0 +1,11 @@
+{
+    "type": "array",
+    "name" :"test",
+    "prefixItems": [
+      { "type": "number" },
+      { "type": "string" },
+      { "enum": ["Street", "Avenue", "Boulevard"] },
+      { "enum": ["NW", "NE", "SW", "SE"] }
+    ]
+  }
+  
