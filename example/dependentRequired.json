@@ -2,7 +2,14 @@
   "type": "object",
   "properties": {
     "name": {
-      "type": "string"
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "integer"
+        }
+      ]
     },
     "credit_card": {
       "type": "number"
@@ -10,13 +17,5 @@
     "billing_address": {
       "type": "string"
     }
-  },
-  "required": [
-    "name"
-  ],
-  "dependentRequired": {
-    "credit_card": [
-      "billing_address"
-    ]
   }
 }

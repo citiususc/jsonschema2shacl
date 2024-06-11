@@ -7,6 +7,8 @@ def check_type(element: dict) -> str:
         return "ArrayType"
     elif element.get("$ref"):
         return "RefType"
+    elif (element.get("allOf") is not None) or (element.get("anyOf") is not None) or (element.get("oneOf") is not None) or (element.get("not") is not None):
+        return "LogicalType"
     else:
         return "SimpleType"
 

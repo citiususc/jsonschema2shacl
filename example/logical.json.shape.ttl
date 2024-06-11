@@ -2,12 +2,12 @@
 @prefix sh: <http://www.w3.org/ns/shacl#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-<http://example.com/NodeShape/None> a sh:NodeShape ;
-    sh:name "None" ;
-    sh:or_ [ ] ;
+<http://example.com/NodeShape/office> a sh:NodeShape ;
+    sh:name "office" ;
+    sh:or_ [ rdf:first [ sh:property <http://example.com/PropertyShape/nameAnyOf0> ] ] ;
     sh:property <http://example.com/PropertyShape/billing_address>,
         <http://example.com/PropertyShape/credit_card> ;
-    sh:targetClass <http://example.com/> .
+    sh:targetClass <http://example.com/office> .
 
 <http://example.com/PropertyShape/billing_address> a sh:PropertyShape ;
     sh:datatype xsd:string ;
@@ -31,6 +31,4 @@
 
 [] rdf:rest [ ] ;
     sh:property <http://example.com/PropertyShape/nameAnyOf1> .
-
-[] rdf:rest [ sh:property <http://example.com/PropertyShape/nameAnyOf0> ] .
 
