@@ -1,0 +1,5 @@
+{
+    "type": "string",
+    "name": "test",
+    "minLength": 2
+}

@@ -1,10 +1,8 @@
-import argparse
 from rdflib import Graph, Namespace, Literal, URIRef, BNode
 from jsonpath_ng import parse
 # from pyshacl import validate
-from file_parser import parse_json_schema
-from constants import build_in_types, format_types
-from utils import check_type, check_if_object_has_properties_or_restrictions
+from .constants import build_in_types, format_types
+from .utils import check_type, check_if_object_has_properties_or_restrictions
 
 
 class JsonSchemaToShacl:
@@ -968,7 +966,7 @@ class JsonSchemaToShacl:
 
         return subject
 
-    def translate(self, element: dict) -> None:
+    def translate(self, element: dict) -> Graph:
         """Function to translate JSON Schema to SHACL"""
         self.schema = element
         type_element = check_type(element)
@@ -979,25 +977,4 @@ class JsonSchemaToShacl:
         elif type_element == "SimpleType":
             self.trans_simple(element)
 
-
-def main():
-    """Main function to execute"""
-    parser = argparse.ArgumentParser(
-        description="Translate JSON Schema to SHACL")
-    parser.add_argument("json_file", type=str,
-                        help="Path to JSON Schema file")
-    args = parser.parse_args()
-
-    file_path = args.json_file
-    schema = parse_json_schema(file_path)
-
-    json_converter = JsonSchemaToShacl()
-
-    if schema is not None:
-        json_converter.translate(schema)
-        file_name = f"{file_path}.shape.ttl"
-        json_converter.shacl.serialize(format="turtle", destination=file_name)
-
-
-if __name__ == "__main__":
-    main()
+        return self.shacl

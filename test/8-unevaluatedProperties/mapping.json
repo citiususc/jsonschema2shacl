@@ -1,0 +1,22 @@
+{
+    "type": "object",
+    "name": "address",
+    "properties": {
+        "street_address": {
+            "type": "string"
+        },
+        "city": {
+            "type": "string"
+        },
+        "state": {
+            "type": "string"
+        },
+        "type": {
+            "enum": [
+                "residential",
+                "business"
+            ]
+        }
+    },
+    "unevaluatedProperties": false
+}

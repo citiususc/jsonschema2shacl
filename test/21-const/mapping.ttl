@@ -1,0 +1,12 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+<http://example.com/NodeShape/office> a sh:NodeShape ;
+    sh:name "office" ;
+    sh:property <http://example.com/PropertyShape/country> ;
+    sh:targetClass <http://example.com/office> .
+
+<http://example.com/PropertyShape/country> a sh:PropertyShape ;
+    sh:hasValue "United States of America" ;
+    sh:name "country" ;
+    sh:path <http://example.com/country> .
+

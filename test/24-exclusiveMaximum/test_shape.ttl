@@ -1,0 +1,9 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<http://example.com/PropertyShape/credit_card> a sh:PropertyShape ;
+    sh:datatype xsd:decimal ;
+    sh:maxExclusive 100 ;
+    sh:name "credit_card" ;
+    sh:path <http://example.com/credit_card> .
+

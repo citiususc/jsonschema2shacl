@@ -1,0 +1,4 @@
+jsonpath-ng==1.6.1
+owlrl==6.0.2
+pyshacl==0.26.0
+rdflib==7.0.0

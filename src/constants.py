@@ -11,7 +11,7 @@ def build_in_types(json_type):
 
 def format_types(format_type):
     format_type_map = {
-        "date-time": "dateTime ",
+        "date-time": "dateTime",
         "date": "date",
         "time": "time",
         "duration": "duration"

@@ -1,0 +1,16 @@
+{
+    "type": "object",
+    "name": "persona",
+    "properties": {
+        "first_name": {
+            "type": "string"
+        },
+        "last_name": {
+            "type": "string"
+        },
+        "birthday": {
+            "type": "string",
+            "format": "date"
+        }
+    }
+}

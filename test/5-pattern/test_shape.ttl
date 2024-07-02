@@ -1,0 +1,9 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<http://example.com/PropertyShape/test> a sh:PropertyShape ;
+    sh:datatype xsd:string ;
+    sh:name "test" ;
+    sh:path <http://example.com/test> ;
+    sh:pattern "^[0-9]{4}-[0-9]{2}-[0-9]{2}$" .
+

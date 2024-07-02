@@ -1,0 +1,18 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<http://example.com/NodeShape/test> a sh:NodeShape ;
+    sh:name "test" ;
+    sh:property <http://example.com/PropertyShape/testP0>,
+        <http://example.com/PropertyShape/testP1> .
+
+<http://example.com/PropertyShape/testP0> a sh:PropertyShape ;
+    sh:datatype xsd:string ;
+    sh:name "testP0" ;
+    sh:path <http://example.com/testP0> .
+
+<http://example.com/PropertyShape/testP1> a sh:PropertyShape ;
+    sh:datatype xsd:decimal ;
+    sh:name "testP1" ;
+    sh:path <http://example.com/testP1> .
+
