@@ -1,7 +1,7 @@
 import argparse
 import os
-from src.jsonschema2shacl.file_parser import parse_json_schema
-from src.jsonschema2shacl.json_schema_to_shacl import JsonSchemaToShacl
+from .file_parser import parse_json_schema
+from .json_schema_to_shacl import JsonSchemaToShacl
 
 
 def main():
