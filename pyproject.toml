@@ -1,0 +1,26 @@
+[tool.poetry]
+name = "jsonschema2shacl"
+version = "1.0"
+description = "The tool translates JSON Schema into SHACL Shapes."
+authors = ["Oscar Suárez Montes <oscar.suarez.montes@rai.usc.es>", "David Chaves <david.chaves@usc.es>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+rdflib = "^7.1.1"
+jsonpath-ng = "1.6.1"
+owlrl = "^6.0.2"
+pyshacl = "^0.26.0"
+
+[tool.poetry.group.test.dependencies]
+pytest = "^8.3.3"
+setuptools = "^75.8.0"
+wheel = "^0.45.1"
+pytest-cov = "^6.0.0"
+coverage =  "^7.6.10"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+
