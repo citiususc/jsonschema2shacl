@@ -1,5 +1,0 @@
-{
-    "type": "number",
-    "name": "credit_card",
-    "exclusiveMaximum": 100
-}
