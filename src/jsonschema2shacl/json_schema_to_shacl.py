@@ -531,8 +531,7 @@ class JsonSchemaToShacl:
                         if "NodeShape" in str(shapes):
                             subject_property_path = shapes.split(
                                 "NodeShape/")[1]
-                            subject_property = self.ns[f'NodeShape/{
-                                subject_property_path}']
+                            subject_property = self.ns[f'NodeShape/{subject_property_path}']
                         elif "PropertyShape" in str(shapes):
                             subject_property_path = shapes.split(
                                 "PropertyShape/")[1]
