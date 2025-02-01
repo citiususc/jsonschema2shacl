@@ -1,3 +1,4 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix sh: <http://www.w3.org/ns/shacl#> .
 
 <http://example.com/NodeShape/office> a sh:NodeShape ;
@@ -6,8 +7,7 @@
     sh:targetClass <http://example.com/office> .
 
 <http://example.com/PropertyShape/country> a sh:PropertyShape ;
-    sh:in_ "Canada",
-        "United States of America" ;
+    sh:in ( "United States of America" "Canada" ) ;
     sh:name "country" ;
     sh:path <http://example.com/country> .
 

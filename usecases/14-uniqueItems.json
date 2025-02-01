@@ -1,8 +1,0 @@
-{
-    "type": "array",
-    "name": "test",
-    "items": {
-        "type": "number"
-    },
-    "uniqueItems": true
-}

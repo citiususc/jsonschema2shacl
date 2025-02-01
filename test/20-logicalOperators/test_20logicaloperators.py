@@ -5,7 +5,6 @@ from jsonschema2shacl.file_parser import parse_json_schema
 from jsonschema2shacl.json_schema_to_shacl import JsonSchemaToShacl
 
 
-@pytest.mark.skip(reason="Not implemented yet")
 def test_20logicaloperators():
     expected_graph = Graph()
     expected_graph.parse(os.path.join(os.path.dirname(

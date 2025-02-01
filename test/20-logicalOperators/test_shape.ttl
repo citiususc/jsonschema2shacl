@@ -1,0 +1,34 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<http://example.com/NodeShape/office> a sh:NodeShape ;
+    sh:name "office" ;
+    sh:or_ [ rdf:first [ sh:property <http://example.com/PropertyShape/nameAnyOf0> ] ] ;
+    sh:property <http://example.com/PropertyShape/billing_address>,
+        <http://example.com/PropertyShape/credit_card> ;
+    sh:targetClass <http://example.com/office> .
+
+<http://example.com/PropertyShape/billing_address> a sh:PropertyShape ;
+    sh:datatype xsd:string ;
+    sh:name "billing_address" ;
+    sh:path <http://example.com/billing_address> .
+
+<http://example.com/PropertyShape/credit_card> a sh:PropertyShape ;
+    sh:datatype xsd:decimal ;
+    sh:name "credit_card" ;
+    sh:path <http://example.com/credit_card> .
+
+<http://example.com/PropertyShape/nameAnyOf0> a sh:PropertyShape ;
+    sh:datatype xsd:string ;
+    sh:name "nameAnyOf0" ;
+    sh:path <http://example.com/nameAnyOf0> .
+
+<http://example.com/PropertyShape/nameAnyOf1> a sh:PropertyShape ;
+    sh:datatype xsd:integer ;
+    sh:name "nameAnyOf1" ;
+    sh:path <http://example.com/nameAnyOf1> .
+
+[] rdf:rest [ ] ;
+    sh:property <http://example.com/PropertyShape/nameAnyOf1> .
+

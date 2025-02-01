@@ -1,5 +1,7 @@
 import argparse
 import os
+from pyshacl import validate
+from rdflib import Graph
 from .file_parser import parse_json_schema
 from .json_schema_to_shacl import JsonSchemaToShacl
 
@@ -26,6 +28,16 @@ def main():
         # Construct the new file name with .shape.ttl extension
         file_name = os.path.join(base_path, base_name + "_shape.ttl")
         json_converter.shacl.serialize(format="turtle", destination=file_name)
+
+        shacl_validation = Graph()
+        shacl_validation.parse("https://www.w3.org/ns/shacl-shacl")
+
+        if len(json_converter.shacl) < 10000:
+            r = validate(json_converter.shacl, shacl_graph=shacl_validation)
+            if not r[0]:
+                print(r[2])
+            else:
+                print("Well formed SHACL shapes!")
 
 
 if __name__ == "__main__":

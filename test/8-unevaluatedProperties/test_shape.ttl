@@ -1,3 +1,4 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix sh: <http://www.w3.org/ns/shacl#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
@@ -25,8 +26,7 @@
     sh:path <http://example.com/street_address> .
 
 <http://example.com/PropertyShape/type> a sh:PropertyShape ;
-    sh:in_ "business",
-        "residential" ;
+    sh:in ( "residential" "business" ) ;
     sh:name "type" ;
     sh:path <http://example.com/type> .
 

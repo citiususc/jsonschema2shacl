@@ -1,0 +1,451 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<http://example.com/NodeShape/ResumeSchema> a sh:NodeShape ;
+    sh:name "ResumeSchema" ;
+    sh:property <http://example.com/PropertyShape/$schema>,
+        <http://example.com/PropertyShape/awards>,
+        <http://example.com/PropertyShape/basics>,
+        <http://example.com/PropertyShape/education>,
+        <http://example.com/PropertyShape/interests>,
+        <http://example.com/PropertyShape/languages>,
+        <http://example.com/PropertyShape/meta>,
+        <http://example.com/PropertyShape/projects>,
+        <http://example.com/PropertyShape/publications>,
+        <http://example.com/PropertyShape/references>,
+        <http://example.com/PropertyShape/skills>,
+        <http://example.com/PropertyShape/volunteer>,
+        <http://example.com/PropertyShape/work> ;
+    sh:targetClass <http://example.com/ResumeSchema> .
+
+<http://example.com/NodeShape/awards> a sh:NodeShape ;
+    sh:closed false ;
+    sh:name "awards" ;
+    sh:property <http://example.com/PropertyShape/awarder>,
+        <http://example.com/PropertyShape/date>,
+        <http://example.com/PropertyShape/summary>,
+        <http://example.com/PropertyShape/title> .
+
+<http://example.com/NodeShape/basics> a sh:NodeShape ;
+    sh:closed false ;
+    sh:name "basics" ;
+    sh:property <http://example.com/PropertyShape/email>,
+        <http://example.com/PropertyShape/image>,
+        <http://example.com/PropertyShape/label>,
+        <http://example.com/PropertyShape/location>,
+        <http://example.com/PropertyShape/name>,
+        <http://example.com/PropertyShape/phone>,
+        <http://example.com/PropertyShape/profiles>,
+        <http://example.com/PropertyShape/summary>,
+        <http://example.com/PropertyShape/url> .
+
+<http://example.com/NodeShape/education> a sh:NodeShape ;
+    sh:closed false ;
+    sh:name "education" ;
+    sh:property <http://example.com/PropertyShape/area>,
+        <http://example.com/PropertyShape/courses>,
+        <http://example.com/PropertyShape/endDate>,
+        <http://example.com/PropertyShape/gpa>,
+        <http://example.com/PropertyShape/institution>,
+        <http://example.com/PropertyShape/startDate>,
+        <http://example.com/PropertyShape/studyType>,
+        <http://example.com/PropertyShape/url> .
+
+<http://example.com/NodeShape/interests> a sh:NodeShape ;
+    sh:closed false ;
+    sh:name "interests" ;
+    sh:property <http://example.com/PropertyShape/keywords>,
+        <http://example.com/PropertyShape/name> .
+
+<http://example.com/NodeShape/languages> a sh:NodeShape ;
+    sh:closed false ;
+    sh:name "languages" ;
+    sh:property <http://example.com/PropertyShape/fluency>,
+        <http://example.com/PropertyShape/languages> .
+
+<http://example.com/NodeShape/location> a sh:NodeShape ;
+    sh:closed false ;
+    sh:name "location" ;
+    sh:property <http://example.com/PropertyShape/address>,
+        <http://example.com/PropertyShape/city>,
+        <http://example.com/PropertyShape/countryCode>,
+        <http://example.com/PropertyShape/postalCode>,
+        <http://example.com/PropertyShape/region> .
+
+<http://example.com/NodeShape/meta> a sh:NodeShape ;
+    sh:closed false ;
+    sh:description "The schema version and any other tooling configuration lives here" ;
+    sh:name "meta" ;
+    sh:property <http://example.com/PropertyShape/canonical>,
+        <http://example.com/PropertyShape/lastModified>,
+        <http://example.com/PropertyShape/version> .
+
+<http://example.com/NodeShape/profiles> a sh:NodeShape ;
+    sh:closed false ;
+    sh:name "profiles" ;
+    sh:property <http://example.com/PropertyShape/network>,
+        <http://example.com/PropertyShape/url>,
+        <http://example.com/PropertyShape/username> .
+
+<http://example.com/NodeShape/projects> a sh:NodeShape ;
+    sh:closed false ;
+    sh:name "projects" ;
+    sh:property <http://example.com/PropertyShape/description>,
+        <http://example.com/PropertyShape/endDate>,
+        <http://example.com/PropertyShape/entity>,
+        <http://example.com/PropertyShape/highlights>,
+        <http://example.com/PropertyShape/keywords>,
+        <http://example.com/PropertyShape/name>,
+        <http://example.com/PropertyShape/roles>,
+        <http://example.com/PropertyShape/startDate>,
+        <http://example.com/PropertyShape/type>,
+        <http://example.com/PropertyShape/url> .
+
+<http://example.com/NodeShape/publications> a sh:NodeShape ;
+    sh:closed false ;
+    sh:name "publications" ;
+    sh:property <http://example.com/PropertyShape/name>,
+        <http://example.com/PropertyShape/publisher>,
+        <http://example.com/PropertyShape/releaseDate>,
+        <http://example.com/PropertyShape/summary>,
+        <http://example.com/PropertyShape/url> .
+
+<http://example.com/NodeShape/references> a sh:NodeShape ;
+    sh:closed false ;
+    sh:name "references" ;
+    sh:property <http://example.com/PropertyShape/name>,
+        <http://example.com/PropertyShape/references> .
+
+<http://example.com/NodeShape/skills> a sh:NodeShape ;
+    sh:closed false ;
+    sh:name "skills" ;
+    sh:property <http://example.com/PropertyShape/keywords>,
+        <http://example.com/PropertyShape/level>,
+        <http://example.com/PropertyShape/name> .
+
+<http://example.com/NodeShape/volunteer> a sh:NodeShape ;
+    sh:closed false ;
+    sh:name "volunteer" ;
+    sh:property <http://example.com/PropertyShape/endDate>,
+        <http://example.com/PropertyShape/highlights>,
+        <http://example.com/PropertyShape/organization>,
+        <http://example.com/PropertyShape/position>,
+        <http://example.com/PropertyShape/startDate>,
+        <http://example.com/PropertyShape/summary>,
+        <http://example.com/PropertyShape/url> .
+
+<http://example.com/NodeShape/work> a sh:NodeShape ;
+    sh:closed false ;
+    sh:name "work" ;
+    sh:property <http://example.com/PropertyShape/description>,
+        <http://example.com/PropertyShape/endDate>,
+        <http://example.com/PropertyShape/highlights>,
+        <http://example.com/PropertyShape/location>,
+        <http://example.com/PropertyShape/name>,
+        <http://example.com/PropertyShape/position>,
+        <http://example.com/PropertyShape/startDate>,
+        <http://example.com/PropertyShape/summary>,
+        <http://example.com/PropertyShape/url> .
+
+<http://example.com/PropertyShape/$schema> a sh:PropertyShape ;
+    sh:datatype xsd:string ;
+    sh:description "link to the version of the schema that can validate the resume" ;
+    sh:name "$schema" ;
+    sh:path <http://example.com/$schema> .
+
+<http://example.com/PropertyShape/address> a sh:PropertyShape ;
+    sh:datatype xsd:string ;
+    sh:description """To add multiple address lines, use 
+. For example, 1234 Glücklichkeit Straße
+Hinterhaus 5. Etage li.""" ;
+    sh:name "address" ;
+    sh:path <http://example.com/address> .
+
+<http://example.com/PropertyShape/area> a sh:PropertyShape ;
+    sh:datatype xsd:string ;
+    sh:description "e.g. Arts" ;
+    sh:name "area" ;
+    sh:path <http://example.com/area> .
+
+<http://example.com/PropertyShape/awarder> a sh:PropertyShape ;
+    sh:datatype xsd:string ;
+    sh:description "e.g. Time Magazine" ;
+    sh:name "awarder" ;
+    sh:path <http://example.com/awarder> .
+
+<http://example.com/PropertyShape/awards> a sh:PropertyShape ;
+    sh:node <http://example.com/NodeShape/awards> ;
+    sh:path <http://example.com/awards> .
+
+<http://example.com/PropertyShape/basics> a sh:PropertyShape ;
+    sh:node <http://example.com/NodeShape/basics> ;
+    sh:path <http://example.com/basics> .
+
+<http://example.com/PropertyShape/canonical> a sh:PropertyShape ;
+    sh:datatype xsd:string ;
+    sh:description "URL (as per RFC 3986) to latest version of this document" ;
+    sh:name "canonical" ;
+    sh:path <http://example.com/canonical> .
+
+<http://example.com/PropertyShape/city> a sh:PropertyShape ;
+    sh:datatype xsd:string ;
+    sh:name "city" ;
+    sh:path <http://example.com/city> .
+
+<http://example.com/PropertyShape/countryCode> a sh:PropertyShape ;
+    sh:datatype xsd:string ;
+    sh:description "code as per ISO-3166-1 ALPHA-2, e.g. US, AU, IN" ;
+    sh:name "countryCode" ;
+    sh:path <http://example.com/countryCode> .
+
+<http://example.com/PropertyShape/courses> a sh:PropertyShape ;
+    sh:datatype xsd:string ;
+    sh:description "e.g. H1302 - Introduction to American history" ;
+    sh:name "courses" ;
+    sh:path <http://example.com/courses> .
+
+<http://example.com/PropertyShape/date> a sh:PropertyShape ;
+    sh:datatype xsd:string ;
+    sh:description "e.g. 2014-06-29" ;
+    sh:name "date" ;
+    sh:path <http://example.com/date> ;
+    sh:pattern "^([1-2][0-9]{3}-[0-1][0-9]-[0-3][0-9]|[1-2][0-9]{3}-[0-1][0-9]|[1-2][0-9]{3})$" .
+
+<http://example.com/PropertyShape/education> a sh:PropertyShape ;
+    sh:node <http://example.com/NodeShape/education> ;
+    sh:path <http://example.com/education> .
+
+<http://example.com/PropertyShape/email> a sh:PropertyShape ;
+    sh:datatype xsd:string ;
+    sh:description "e.g. thomas@gmail.com" ;
+    sh:name "email" ;
+    sh:path <http://example.com/email> .
+
+<http://example.com/PropertyShape/entity> a sh:PropertyShape ;
+    sh:datatype xsd:string ;
+    sh:description "Specify the relevant company/entity affiliations e.g. 'greenpeace', 'corporationXYZ'" ;
+    sh:name "entity" ;
+    sh:path <http://example.com/entity> .
+
+<http://example.com/PropertyShape/fluency> a sh:PropertyShape ;
+    sh:datatype xsd:string ;
+    sh:description "e.g. Fluent, Beginner" ;
+    sh:name "fluency" ;
+    sh:path <http://example.com/fluency> .
+
+<http://example.com/PropertyShape/gpa> a sh:PropertyShape ;
+    sh:datatype xsd:string ;
+    sh:description "grade point average, e.g. 3.67/4.0" ;
+    sh:name "gpa" ;
+    sh:path <http://example.com/gpa> .
+
+<http://example.com/PropertyShape/image> a sh:PropertyShape ;
+    sh:datatype xsd:string ;
+    sh:description "URL (as per RFC 3986) to a image in JPEG or PNG format" ;
+    sh:name "image" ;
+    sh:path <http://example.com/image> .
+
+<http://example.com/PropertyShape/institution> a sh:PropertyShape ;
+    sh:datatype xsd:string ;
+    sh:description "e.g. Massachusetts Institute of Technology" ;
+    sh:name "institution" ;
+    sh:path <http://example.com/institution> .
+
+<http://example.com/PropertyShape/interests> a sh:PropertyShape ;
+    sh:node <http://example.com/NodeShape/interests> ;
+    sh:path <http://example.com/interests> .
+
+<http://example.com/PropertyShape/label> a sh:PropertyShape ;
+    sh:datatype xsd:string ;
+    sh:description "e.g. Web Developer" ;
+    sh:name "label" ;
+    sh:path <http://example.com/label> .
+
+<http://example.com/PropertyShape/lastModified> a sh:PropertyShape ;
+    sh:datatype xsd:string ;
+    sh:description "Using ISO 8601 with YYYY-MM-DDThh:mm:ss" ;
+    sh:name "lastModified" ;
+    sh:path <http://example.com/lastModified> .
+
+<http://example.com/PropertyShape/level> a sh:PropertyShape ;
+    sh:datatype xsd:string ;
+    sh:description "e.g. Master" ;
+    sh:name "level" ;
+    sh:path <http://example.com/level> .
+
+<http://example.com/PropertyShape/meta> a sh:PropertyShape ;
+    sh:node <http://example.com/NodeShape/meta> ;
+    sh:path <http://example.com/meta> .
+
+<http://example.com/PropertyShape/network> a sh:PropertyShape ;
+    sh:datatype xsd:string ;
+    sh:description "e.g. Facebook or Twitter" ;
+    sh:name "network" ;
+    sh:path <http://example.com/network> .
+
+<http://example.com/PropertyShape/organization> a sh:PropertyShape ;
+    sh:datatype xsd:string ;
+    sh:description "e.g. Facebook" ;
+    sh:name "organization" ;
+    sh:path <http://example.com/organization> .
+
+<http://example.com/PropertyShape/phone> a sh:PropertyShape ;
+    sh:datatype xsd:string ;
+    sh:description "Phone numbers are stored as strings so use any format you like, e.g. 712-117-2923" ;
+    sh:name "phone" ;
+    sh:path <http://example.com/phone> .
+
+<http://example.com/PropertyShape/postalCode> a sh:PropertyShape ;
+    sh:datatype xsd:string ;
+    sh:name "postalCode" ;
+    sh:path <http://example.com/postalCode> .
+
+<http://example.com/PropertyShape/profiles> a sh:PropertyShape ;
+    sh:node <http://example.com/NodeShape/profiles> ;
+    sh:path <http://example.com/profiles> .
+
+<http://example.com/PropertyShape/projects> a sh:PropertyShape ;
+    sh:node <http://example.com/NodeShape/projects> ;
+    sh:path <http://example.com/projects> .
+
+<http://example.com/PropertyShape/publications> a sh:PropertyShape ;
+    sh:node <http://example.com/NodeShape/publications> ;
+    sh:path <http://example.com/publications> .
+
+<http://example.com/PropertyShape/publisher> a sh:PropertyShape ;
+    sh:datatype xsd:string ;
+    sh:description "e.g. IEEE, Computer Magazine" ;
+    sh:name "publisher" ;
+    sh:path <http://example.com/publisher> .
+
+<http://example.com/PropertyShape/region> a sh:PropertyShape ;
+    sh:datatype xsd:string ;
+    sh:description "The general region where you live. Can be a US state, or a province, for instance." ;
+    sh:name "region" ;
+    sh:path <http://example.com/region> .
+
+<http://example.com/PropertyShape/releaseDate> a sh:PropertyShape ;
+    sh:datatype xsd:string ;
+    sh:description "e.g. 2014-06-29" ;
+    sh:name "releaseDate" ;
+    sh:path <http://example.com/releaseDate> ;
+    sh:pattern "^([1-2][0-9]{3}-[0-1][0-9]-[0-3][0-9]|[1-2][0-9]{3}-[0-1][0-9]|[1-2][0-9]{3})$" .
+
+<http://example.com/PropertyShape/roles> a sh:PropertyShape ;
+    sh:datatype xsd:string ;
+    sh:description "e.g. Team Lead, Speaker, Writer" ;
+    sh:name "roles" ;
+    sh:path <http://example.com/roles> .
+
+<http://example.com/PropertyShape/skills> a sh:PropertyShape ;
+    sh:node <http://example.com/NodeShape/skills> ;
+    sh:path <http://example.com/skills> .
+
+<http://example.com/PropertyShape/studyType> a sh:PropertyShape ;
+    sh:datatype xsd:string ;
+    sh:description "e.g. Bachelor" ;
+    sh:name "studyType" ;
+    sh:path <http://example.com/studyType> .
+
+<http://example.com/PropertyShape/title> a sh:PropertyShape ;
+    sh:datatype xsd:string ;
+    sh:description "e.g. One of the 100 greatest minds of the century" ;
+    sh:name "title" ;
+    sh:path <http://example.com/title> .
+
+<http://example.com/PropertyShape/type> a sh:PropertyShape ;
+    sh:datatype xsd:string ;
+    sh:description " e.g. 'volunteering', 'presentation', 'talk', 'application', 'conference'" ;
+    sh:name "type" ;
+    sh:path <http://example.com/type> .
+
+<http://example.com/PropertyShape/username> a sh:PropertyShape ;
+    sh:datatype xsd:string ;
+    sh:description "e.g. neutralthoughts" ;
+    sh:name "username" ;
+    sh:path <http://example.com/username> .
+
+<http://example.com/PropertyShape/version> a sh:PropertyShape ;
+    sh:datatype xsd:string ;
+    sh:description "A version field which follows semver - e.g. v1.0.0" ;
+    sh:name "version" ;
+    sh:path <http://example.com/version> .
+
+<http://example.com/PropertyShape/volunteer> a sh:PropertyShape ;
+    sh:node <http://example.com/NodeShape/volunteer> ;
+    sh:path <http://example.com/volunteer> .
+
+<http://example.com/PropertyShape/work> a sh:PropertyShape ;
+    sh:node <http://example.com/NodeShape/work> ;
+    sh:path <http://example.com/work> .
+
+<http://example.com/PropertyShape/description> a sh:PropertyShape ;
+    sh:datatype xsd:string ;
+    sh:description "e.g. Social Media Company" ;
+    sh:name "description" ;
+    sh:path <http://example.com/description> .
+
+<http://example.com/PropertyShape/languages> a sh:PropertyShape ;
+    sh:node <http://example.com/NodeShape/languages> ;
+    sh:path <http://example.com/languages> .
+
+<http://example.com/PropertyShape/location> a sh:PropertyShape ;
+    sh:node <http://example.com/NodeShape/location> ;
+    sh:path <http://example.com/location> .
+
+<http://example.com/PropertyShape/position> a sh:PropertyShape ;
+    sh:datatype xsd:string ;
+    sh:description "e.g. Software Engineer" ;
+    sh:name "position" ;
+    sh:path <http://example.com/position> .
+
+<http://example.com/PropertyShape/references> a sh:PropertyShape ;
+    sh:node <http://example.com/NodeShape/references> ;
+    sh:path <http://example.com/references> .
+
+<http://example.com/PropertyShape/highlights> a sh:PropertyShape ;
+    sh:datatype xsd:string ;
+    sh:description "e.g. Directs you close but not quite there",
+        "e.g. Increased profits by 20% from 2011-2012 through viral advertising" ;
+    sh:name "highlights" ;
+    sh:path <http://example.com/highlights> .
+
+<http://example.com/PropertyShape/keywords> a sh:PropertyShape ;
+    sh:datatype xsd:string ;
+    sh:description "e.g. AngularJS",
+        "e.g. Friedrich Nietzsche",
+        "e.g. HTML" ;
+    sh:name "keywords" ;
+    sh:path <http://example.com/keywords> .
+
+<http://example.com/PropertyShape/endDate> a sh:PropertyShape ;
+    sh:datatype xsd:string ;
+    sh:description "e.g. 2014-06-29" ;
+    sh:name "endDate" ;
+    sh:path <http://example.com/endDate> ;
+    sh:pattern "^([1-2][0-9]{3}-[0-1][0-9]-[0-3][0-9]|[1-2][0-9]{3}-[0-1][0-9]|[1-2][0-9]{3})$" .
+
+<http://example.com/PropertyShape/startDate> a sh:PropertyShape ;
+    sh:datatype xsd:string ;
+    sh:description "e.g. 2014-06-29" ;
+    sh:name "startDate" ;
+    sh:path <http://example.com/startDate> ;
+    sh:pattern "^([1-2][0-9]{3}-[0-1][0-9]-[0-3][0-9]|[1-2][0-9]{3}-[0-1][0-9]|[1-2][0-9]{3})$" .
+
+<http://example.com/PropertyShape/summary> a sh:PropertyShape ;
+    sh:datatype xsd:string ;
+    sh:description "Write a short 2-3 sentence biography about yourself" ;
+    sh:name "summary" ;
+    sh:path <http://example.com/summary> .
+
+<http://example.com/PropertyShape/name> a sh:PropertyShape ;
+    sh:datatype xsd:string ;
+    sh:name "name" ;
+    sh:path <http://example.com/name> .
+
+<http://example.com/PropertyShape/url> a sh:PropertyShape ;
+    sh:datatype xsd:string ;
+    sh:description "URL (as per RFC 3986) to your website, e.g. personal homepage" ;
+    sh:name "url" ;
+    sh:path <http://example.com/url> .
+
