@@ -1,8 +1,8 @@
 import os
 from rdflib import compare, Graph
 import pytest
-from src.file_parser import parse_json_schema
-from src.json_schema_to_shacl import JsonSchemaToShacl
+from jsonschema2shacl.file_parser import parse_json_schema
+from jsonschema2shacl.json_schema_to_shacl import JsonSchemaToShacl
 
 
 @pytest.mark.skip(reason="Not implemented yet")
