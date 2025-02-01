@@ -1,6 +1,5 @@
 from rdflib import Graph, Namespace, Literal, URIRef, BNode
 from jsonpath_ng import parse
-# from pyshacl import validate
 from .constants import build_in_types, format_types
 from .utils import check_type, check_if_object_has_properties_or_restrictions
 
@@ -295,8 +294,6 @@ class JsonSchemaToShacl:
         ref_element = [
             match.value for match in jsonpath_expr.find(self.schema)][0]
 
-        print(ref_element)
-        print(ref_name)
         # Check the type of the referenced element
         ref_type = check_type(ref_element)
 
@@ -450,10 +447,24 @@ class JsonSchemaToShacl:
             o = Literal(element.get('const'))
             self.shacl.add((subject, p, o))
         elif element.get('enum'):
+            enum_node = BNode()
+            first_item = True
+
+            self.shacl.add((subject, self.shacl_ns['in'], enum_node))
             for enum_literal in element.get('enum'):
-                p = self.shacl_ns.in_
-                o = Literal(enum_literal)
-                self.shacl.add((subject, p, o))
+                if first_item:
+                    self.shacl.add(
+                        (enum_node, self.rdf_syntax.first, Literal(enum_literal)))
+                    first_item = False
+                else:
+                    next_node = BNode()
+                    self.shacl.add(
+                        (enum_node, self.rdf_syntax.rest, next_node))
+                    enum_node = next_node
+                    self.shacl.add(
+                        (enum_node, self.rdf_syntax.first, Literal(enum_literal)))
+            self.shacl.add(
+                (enum_node, self.rdf_syntax.rest, self.rdf_syntax.nil))
         elif element.get('type'):
             json_type = element.get('type')
             xsd_type = build_in_types(json_type)
@@ -501,6 +512,10 @@ class JsonSchemaToShacl:
             p = self.shacl_ns.pattern
             o = Literal(element.get('pattern'))
             self.shacl.add((subject, p, o))
+        if element.get('description'):
+            p = self.shacl_ns.description
+            o = Literal(element.get('description'))
+            self.shacl.add((subject, p, o))
 
     def trans_complex_restrictions(self, element: dict, subject: URIRef) -> None:
         if element.get('additionalProperties'):
@@ -516,11 +531,13 @@ class JsonSchemaToShacl:
                         if "NodeShape" in str(shapes):
                             subject_property_path = shapes.split(
                                 "NodeShape/")[1]
-                            subject_property = self.ns[f'NodeShape/{subject_property_path}']
+                            subject_property = self.ns[f'NodeShape/{
+                                subject_property_path}']
                         elif "PropertyShape" in str(shapes):
                             subject_property_path = shapes.split(
                                 "PropertyShape/")[1]
-                            subject_property = self.ns[f'PropertyShape/{subject_property_path}']
+                            subject_property = self.ns[f'PropertyShape/{
+                                subject_property_path}']
                 if subject_property != "":
                     p = self.shacl_ns.minCount
                     o = Literal(1)
@@ -554,11 +571,13 @@ class JsonSchemaToShacl:
                         if "NodeShape" in str(shapes):
                             subject_dependant_key_path = shapes.split(
                                 "NodeShape/")[1]
-                            subject_dependant_key = self.ns[f'NodeShape/{subject_dependant_key_path}']
+                            subject_dependant_key = self.ns[f'NodeShape/{
+                                subject_dependant_key_path}']
                         elif "PropertyShape" in str(shapes):
                             subject_dependant_key_path = shapes.split(
                                 "PropertyShape/")[1]
-                            subject_dependant_key = self.ns[f'PropertyShape/{subject_dependant_key_path}']
+                            subject_dependant_key = self.ns[f'PropertyShape/{
+                                subject_dependant_key_path}']
                 if subject_dependant_key != "":
                     for dependent in dependent_list:
                         subject_dependant_path = ""
@@ -572,7 +591,8 @@ class JsonSchemaToShacl:
                                         "PropertyShape/")[1]
                         if subject_dependant_path != "":
                             p = self.shacl_ns.qualifiedValueShape
-                            dependent_object = self.ns[f'NodeShape/{dependent}QualifiedValueShape']
+                            dependent_object = self.ns[f'NodeShape/{
+                                dependent}QualifiedValueShape']
                             self.shacl.add(
                                 (subject_dependant_key, p, dependent_object))
                             self.shapes.append(dependent_object)
@@ -582,11 +602,11 @@ class JsonSchemaToShacl:
                                 (dependent_object, self.shacl_ns.path, self.xsd_target_ns[subject_dependant_path]))
         if element.get('if'):
             or_node = BNode()
-            self.shacl.add((subject, self.shacl_ns.or_, or_node))
+            self.shacl.add((subject, self.shacl_ns['or'], or_node))
 
             and_list = BNode()
             and_node = BNode()
-            self.shacl.add((and_list, self.shacl_ns.and_, and_node))
+            self.shacl.add((and_list, self.shacl_ns['and'], and_node))
             self.shacl.add((or_node, self.rdf_syntax.first, and_list))
 
             if_node = BNode()
@@ -624,124 +644,127 @@ class JsonSchemaToShacl:
 
             then_node = BNode()
             self.shacl.add((and_node, self.rdf_syntax.rest, then_node))
+            then_properties = BNode()
+            self.shacl.add((then_node, self.rdf_syntax.first, then_properties))
+            self.shacl.add(
+                (then_node, self.rdf_syntax.rest, self.rdf_syntax.nil))
             element_then = element.get('then')
-            # Print
-            print(self.shacl.serialize(format="turtle"))
             if element_then.get('type') is not None:
                 then_element_type = element_then.get('type')
                 type_then_element = check_type(then_element_type)
                 if type_then_element == "SimpleType":
                     self.trans_element_simple(
-                        f"{subject.split('/')[-1]}Then", element_then, then_node)
+                        f"{subject.split('/')[-1]}Then", element_then, then_properties)
                 elif type_then_element == "ComplexType":
                     self.trans_element_complex(
-                        f"{subject.split('/')[-1]}Then", element_then, then_node)
+                        f"{subject.split('/')[-1]}Then", element_then, then_properties)
                 elif type_then_element == "ArrayType":
                     self.trans_element_array(
-                        f"{subject.split('/')[-1]}Then", element_then, then_node)
+                        f"{subject.split('/')[-1]}Then", element_then, then_properties)
                 elif type_then_element == "RefType":
                     self.trans_element_ref(
-                        f"{subject.split('/')[-1]}Then", element_then, then_node)
+                        f"{subject.split('/')[-1]}Then", element_then, then_properties)
             elif element_then.get('properties') is not None:
                 for name, details in element_then.get('properties', {}).items():
                     exiting_shape = False
                     if self.shapes:
                         for shape in self.shapes:
                             if f'PropertyShape/{name}' in str(shape):
-                                self.shacl.add((then_node, self.shacl_ns.path,
+                                self.shacl.add((then_properties, self.shacl_ns.path,
                                                self.xsd_target_ns[name]))
                                 self.trans_simple_restrictions(
-                                    details, then_node)
+                                    details, then_properties)
                                 self.trans_complex_restrictions(
-                                    details, then_node)
+                                    details, then_properties)
                                 self.trans_array_restrictions(
-                                    details, then_node)
+                                    details, then_properties)
                                 exiting_shape = True
                     if not exiting_shape:
                         type_details = check_type(details)
                         if type_details == "SimpleType":
-                            self.shacl.add((then_node, self.shacl_ns.path,
+                            self.shacl.add((then_properties, self.shacl_ns.path,
                                             self.xsd_target_ns[name]))
                             self.trans_simple_restrictions(
-                                details, then_node)
+                                details, then_properties)
                             self.trans_complex_restrictions(
-                                details, then_node)
+                                details, then_properties)
                             self.trans_array_restrictions(
-                                details, then_node)
+                                details, then_properties)
                             # self.trans_element_simple(
                             #     name, details, then_node)
                         elif type_details == "ComplexType":
                             self.trans_element_complex(
-                                name, details, then_node)
+                                name, details, then_properties)
                         elif type_details == "ArrayType":
                             self.trans_element_array(
                                 name, details, then_node)
                         elif type_details == "RefType":
                             self.trans_element_ref(
-                                name, details, then_node)
+                                name, details, then_properties)
             elif check_if_object_has_properties_or_restrictions(element_then) is True:
-                self.trans_complex_restrictions(element_then, then_node)
-
-            # Print
-            print("-------------------")
-            # Print
-            print(self.shacl.serialize(format="turtle"))
+                self.trans_complex_restrictions(element_then, then_properties)
             if element.get('else'):
                 else_node = BNode()
                 self.shacl.add((or_node, self.rdf_syntax.rest, else_node))
+                else_properties = BNode()
+                self.shacl.add(
+                    (else_node, self.rdf_syntax.first, else_properties))
+                self.shacl.add(
+                    (else_node, self.rdf_syntax.rest, self.rdf_syntax.nil))
                 element_else = element.get('else')
                 if element_else.get('type') is not None:
                     else_element_type = element_else.get('type')
                     if check_type(else_element_type) == "SimpleType":
                         self.trans_element_simple(
-                            f"{subject.split('/')[-1]}Then", element_else, else_node)
+                            f"{subject.split('/')[-1]}Then", element_else, else_properties)
                     elif check_type(else_element_type) == "ComplexType":
                         self.trans_element_complex(
-                            f"{subject.split('/')[-1]}Then", element_else, else_node)
+                            f"{subject.split('/')[-1]}Then", element_else, else_properties)
                     elif check_type(else_element_type) == "ArrayType":
                         self.trans_element_array(
-                            f"{subject.split('/')[-1]}Then", element_else, else_node)
+                            f"{subject.split('/')[-1]}Then", element_else, else_properties)
                     elif check_type(else_element_type) == "RefType":
                         self.trans_element_ref(
-                            f"{subject.split('/')[-1]}Then", element_else, else_node)
+                            f"{subject.split('/')[-1]}Then", element_else, else_properties)
                 elif element_else.get('properties') is not None:
                     for name, details in element_else.get('properties', {}).items():
                         exiting_shape = False
                         if self.shapes:
                             for shape in self.shapes:
                                 if f'PropertyShape/{name}' in str(shape):
-                                    self.shacl.add((else_node, self.shacl_ns.path,
+                                    self.shacl.add((else_properties, self.shacl_ns.path,
                                                     self.xsd_target_ns[name]))
                                     self.trans_simple_restrictions(
-                                        details, else_node)
+                                        details, else_properties)
                                     self.trans_complex_restrictions(
-                                        details, else_node)
+                                        details, else_properties)
                                     self.trans_array_restrictions(
-                                        details, else_node)
+                                        details, else_properties)
                                     exiting_shape = True
                         if not exiting_shape:
                             if type_details == "SimpleType":
-                                self.shacl.add((else_node, self.shacl_ns.path,
+                                self.shacl.add((else_properties, self.shacl_ns.path,
                                                 self.xsd_target_ns[name]))
                                 self.trans_simple_restrictions(
-                                    details, else_node)
+                                    details, else_properties)
                                 self.trans_complex_restrictions(
-                                    details, else_node)
+                                    details, else_properties)
                                 self.trans_array_restrictions(
-                                    details, else_node)
+                                    details, else_properties)
                                 # self.trans_element_simple(
-                                #     name, details, else_node)
+                                #     name, details, else_properties)
                             elif check_type(details) == "ComplexType":
                                 self.trans_element_complex(
-                                    name, details, else_node)
+                                    name, details, else_properties)
                             elif check_type(details) == "ArrayType":
                                 self.trans_element_array(
-                                    name, details, else_node)
+                                    name, details, else_properties)
                             elif check_type(details) == "RefType":
                                 self.trans_element_ref(
-                                    name, details, else_node)
+                                    name, details, else_properties)
                 elif check_if_object_has_properties_or_restrictions(element_then) is True:
-                    self.trans_complex_restrictions(element_then, else_node)
+                    self.trans_complex_restrictions(
+                        element_then, else_properties)
             else:
                 self.shacl.add(
                     (or_node, self.rdf_syntax.rest, self.rdf_syntax.nil))
