@@ -1,0 +1,6 @@
+coverage==7.5.4
+jsonpath-ng==1.6.1
+owlrl==6.0.2
+pyshacl==0.26.0
+pytest==8.2.2
+rdflib==7.0.0

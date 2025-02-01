@@ -1,3 +1,4 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix sh: <http://www.w3.org/ns/shacl#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
@@ -19,17 +20,12 @@
     sh:path <http://example.com/testP1> .
 
 <http://example.com/PropertyShape/testP2> a sh:PropertyShape ;
-    sh:in_ "Avenue",
-        "Boulevard",
-        "Street" ;
+    sh:in ( "Street" "Avenue" "Boulevard" ) ;
     sh:name "testP2" ;
     sh:path <http://example.com/testP2> .
 
 <http://example.com/PropertyShape/testP3> a sh:PropertyShape ;
-    sh:in_ "NE",
-        "NW",
-        "SE",
-        "SW" ;
+    sh:in ( "NW" "NE" "SW" "SE" ) ;
     sh:name "testP3" ;
     sh:path <http://example.com/testP3> .
 
