@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "jsonschema2shacl"
-version = "0.1"
+version = "0.2"
 description = "The tool translates JSON Schema into SHACL Shapes."
 authors = ["Oscar Suárez Montes <oscar.suarez.montes@rai.usc.es>", "David Chaves <david.chaves@usc.es>"]
 readme = "README.md"
