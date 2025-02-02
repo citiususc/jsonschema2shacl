@@ -9,7 +9,6 @@ pip install jsonschema2shacl
 ## Execution from CLI
 To execute from command line run the following:
 
-- From YARRRML to \[R2\]RML
 ```bash
 python3 -m jsonschema2shacl path_to_input_jsonschema.json
 ```
@@ -24,5 +23,5 @@ json_converter.translate(schema)
 ```
 
 ## Authors
-- [David Chaves-Fraga](mailto:david.chaves@usc.es)
+- [David Chaves Fraga](mailto:david.chaves@usc.es)
 - Óscar Suárez Montes
