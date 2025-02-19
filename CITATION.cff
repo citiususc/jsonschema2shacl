@@ -1,0 +1,11 @@
+cff-version: 1.1.0
+authors:
+  - family-names: Suárez Montes 
+    given-names: Óscar
+  - family-names: Chaves-Fraga
+    given-names: David
+title: "JSONSchema2SHACL"
+version: v0.2
+date-released: 2025-02-01
+doi: 10.5281/zenodo.14785173
+                             
